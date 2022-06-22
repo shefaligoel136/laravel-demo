@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SkillBuilderController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +26,15 @@ Route::get('user',[AuthController::class,'user']);
 
 Route::post('register',[AuthController::class,'register']);
 Route::post('login',[AuthController::class,'login']);
+
+Route::group(['prefix'=>'users'],function(){
+    Route::get('/trash', [UserController::class,'trash']);
+    Route::post('/restore/{id}', [UserController::class,'restore']);
+    Route::delete('/force-delete/{id}', [UserController::class,'forceDelete']);
+});
+Route::resource('users', UserController::class);
+
+Route::resource('skillBuilder', SkillBuilderController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('me', [\App\Http\Controllers\AuthController::class, 'me']);

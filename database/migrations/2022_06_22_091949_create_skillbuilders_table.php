@@ -14,7 +14,18 @@ return new class extends Migration
     public function up()
     {
         Schema::create('skillbuilders', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
+            $table->string('title');
+            $table->string('description');
+            $table->date('publishedAt')->nullable();
+            $table->boolean('isPublished')->default(0);
+            $table->integer('effortTime');
+            $table->integer('points');
+            $table->integer('awards');
+            // $table->uuid('reviewerId');
+            $table->foreignUuid('reviewerId')->references('id')->on('users');
+            // $table->uuid('creatorId');
+            $table->foreignUuid('creatorId')->references('id')->on('users');
             $table->timestamps();
         });
     }
