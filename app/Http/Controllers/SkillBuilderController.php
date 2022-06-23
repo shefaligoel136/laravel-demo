@@ -23,17 +23,20 @@ class SkillBuilderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request)
-    {
-        return Skillbuilder::create([            
+    {   
+        if($request->user()->tokenCan('create-skillbuilder'))
+        {return Skillbuilder::create([            
         'title' => $request->input('title'),
         'description' => $request->input('description'),
         'points' => $request->input('points'),
         'isPublished' => $request->input('isPublished'),
         'awards' => $request->input('awards'),
         'effortTime' => $request->input('effortTime'),
-        'reviewerId' => $request->input('reviewerId'),
-        'creatorId' => $request->input('creatorId'),
-    ]);
+        'reviewerId' => $request->user()->id,
+        'creatorId' =>  $request->user()->id,
+    ]);}else{
+        echo 'invalid';
+    }
     }
 
     /**

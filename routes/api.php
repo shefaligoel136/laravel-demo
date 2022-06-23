@@ -34,11 +34,13 @@ Route::group(['prefix'=>'users'],function(){
 });
 Route::resource('users', UserController::class);
 
-Route::resource('skillBuilder', SkillBuilderController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('me', [\App\Http\Controllers\AuthController::class, 'me']);
     Route::post('logout', [\App\Http\Controllers\AuthController::class, 'logout']);
+
+    Route::resource('skillBuilder', SkillBuilderController::class);
+
 });
 
 // complex datatype

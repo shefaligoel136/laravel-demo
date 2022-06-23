@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->jsonb('address');
+            $table->enum('role',['teacher','mentor','student','admin']);
             $table->timestamps();
         });
     }

@@ -20,7 +20,8 @@ class AuthController extends Controller
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'address' => $request->input('address'),
-            'password' => Hash::make($request->input('password'))
+            'password' => Hash::make($request->input('password')),
+            'role' => $request->input('role'),
         ]);
     }
 
@@ -33,7 +34,17 @@ class AuthController extends Controller
 
         /** @var \App\Models\MyUserModel $user **/
         $user = Auth::user();
-        $token = $user->createToken('token')->plainTextToken;
+        switch ($user->role) {
+            case 'teacher':
+                $permission = array('create-skillbuilder','create-challenge','view-skillbuilder','view-challenge');
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+        // print $permission;
+        $token = $user->createToken('token',!empty($permission)? $permission:[])->plainTextToken;
 
         $cookie = cookie('jwt', $token, 60 * 24); // 1 day
 
