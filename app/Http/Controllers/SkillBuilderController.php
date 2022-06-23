@@ -35,7 +35,7 @@ class SkillBuilderController extends Controller
         'reviewerId' => $request->user()->id,
         'creatorId' =>  $request->user()->id,
     ]);}else{
-        echo 'invalid';
+        abort(401);
     }
     }
 
